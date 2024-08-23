@@ -3,7 +3,6 @@ import Email from "./Email";
 
 export default class Ticket {
   private email: Email;
-
   constructor(
     readonly ticketId: string,
     readonly eventId: string,
