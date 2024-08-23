@@ -11,7 +11,7 @@ export default class TicketRepository {
     const connection = pgp()("postgres://postgres:pass@localhost:5432/ticket");
     await connection.query(
       "insert into ticket (ticket_id, event_id, email, price) values ($1, $2, $3, $4)",
-      [ticket.ticketId, ticket.eventId, ticket.email, ticket.price]
+      [ticket.ticketId, ticket.eventId, ticket.getEmail(), ticket.price]
     );
   }
 

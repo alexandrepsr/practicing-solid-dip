@@ -11,7 +11,7 @@ export default class GetTicket {
     return {
       ticketId: ticket.ticketId,
       eventId: ticket.eventId,
-      email: ticket.email,
+      email: ticket.getEmail(),
       price: ticket.price,
     };
   }
