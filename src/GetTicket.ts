@@ -1,4 +1,3 @@
-import Ticket from "./Ticket";
 import TicketRepository from "./TicketRepository";
 
 export default class GetTicket {

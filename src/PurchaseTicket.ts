@@ -1,5 +1,4 @@
 import crypto from "crypto";
-import pgp from "pg-promise";
 import EventRepository from "./EventRepository";
 import TicketRepository from "./TicketRepository";
 import Ticket from "./Ticket";
