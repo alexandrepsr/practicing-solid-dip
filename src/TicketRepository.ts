@@ -10,7 +10,7 @@ export default interface TicketRepository {
 }
 
 export class TicketRepositoryDatabase implements TicketRepository {
-  constructor(readonly connection: DatabaseConnection){}
+  constructor(readonly connection: DatabaseConnection) {}
 
   async saveTicket(ticket: Ticket): Promise<void> {
     await this.connection.query(
@@ -37,14 +37,26 @@ export class TicketRepositoryDatabase implements TicketRepository {
 export class TicketRepositoryFake implements TicketRepository {
   tickets: Ticket[] = [];
 
+  private static instance: TicketRepositoryFake;
+
+  private constructor() {}
+
   async saveTicket(ticket: Ticket): Promise<void> {
     this.tickets.push(ticket);
   }
+
   async getTicket(ticketId: string): Promise<Ticket> {
     const ticket = this.tickets.find(
       (ticket: Ticket) => ticket.ticketId === ticketId
     );
     if (!ticket) throw new Error("Ticket not found");
     return ticket;
+  }
+
+  static getInstance() {
+    if (!TicketRepositoryFake.instance) {
+      TicketRepositoryFake.instance = new TicketRepositoryFake();
+    }
+    return TicketRepositoryFake.instance;
   }
 }
