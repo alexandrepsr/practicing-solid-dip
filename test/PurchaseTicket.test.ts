@@ -1,10 +1,7 @@
 import { PgpromiseAdapter } from "../src/DatabaseConnection";
-import {
-  EventRepositoryDatabase,
-  EventRepositoryFake,
-} from "../src/EventRepository";
 import GetTicket from "../src/GetTicket";
 import PurchaseTicket from "../src/PurchaseTicket";
+import { RepositoryFactoryDatabase } from "../src/RepositoryFactory";
 import {
   TicketRepositoryDatabase,
   TicketRepositoryFake,
@@ -12,9 +9,11 @@ import {
 
 test("should buy a ticket", async () => {
   const connection = new PgpromiseAdapter();
-  const eventRepository = new EventRepositoryDatabase(connection);
-  const ticketRepository = new TicketRepositoryDatabase(connection);
-  const purchaseTicket = new PurchaseTicket(eventRepository, ticketRepository);
+
+  const repositoryFactory = new RepositoryFactoryDatabase(connection)
+  const purchaseTicket = new PurchaseTicket(repositoryFactory);
+  const getTicket = new GetTicket(repositoryFactory);
+
   const inputPurchaseTicket = {
     eventId: "8c0a59f4-64cb-436e-81c1-ae92f3c7be20",
     email: "bob@gang4.com",
@@ -24,7 +23,6 @@ test("should buy a ticket", async () => {
   );
   expect(outputPurchaseTicket.ticketId).toBeDefined();
 
-  const getTicket = new GetTicket(ticketRepository);
   const outputGetTicket = await getTicket.execute(
     outputPurchaseTicket.ticketId
   );

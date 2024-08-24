@@ -1,7 +1,12 @@
+import RepositoryFactory from "./RepositoryFactory";
 import TicketRepository from "./TicketRepository";
 
 export default class GetTicket {
-  constructor(readonly ticketRepository: TicketRepository) {}
+  ticketRepository: TicketRepository;
+  
+  constructor(readonly repositoryFactory: RepositoryFactory) {
+    this.ticketRepository = repositoryFactory.createTicketRepository();
+  }
 
   async execute(ticketId: string): Promise<Output> {
     const ticket = await this.ticketRepository.getTicket(ticketId);
