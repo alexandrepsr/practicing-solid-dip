@@ -1,7 +1,7 @@
 import { PgpromiseAdapter } from "../src/DatabaseConnection";
 import GetTicket from "../src/GetTicket";
 import PurchaseTicket from "../src/PurchaseTicket";
-import { RepositoryFactoryDatabase } from "../src/RepositoryFactory";
+import { RepositoryFactoryDatabase, RepositoryFactoryFake } from "../src/RepositoryFactory";
 import {
   TicketRepositoryDatabase,
   TicketRepositoryFake,
@@ -11,6 +11,7 @@ test("should buy a ticket", async () => {
   const connection = new PgpromiseAdapter();
 
   const repositoryFactory = new RepositoryFactoryDatabase(connection)
+  // const repositoryFactory = new RepositoryFactoryFake()
   const purchaseTicket = new PurchaseTicket(repositoryFactory);
   const getTicket = new GetTicket(repositoryFactory);
 
