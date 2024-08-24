@@ -3,10 +3,10 @@ import TicketRepository from "./TicketRepository";
 import Ticket from "./Ticket";
 
 export default class PurchaseTicket {
-  eventRepository = new EventRepository();
-  ticketRepository = new TicketRepository();
-
-  constructor() {}
+  constructor(
+    readonly eventRepository: EventRepository,
+    readonly ticketRepository: TicketRepository
+  ) {}
 
   async execute(input: Input): Promise<Output> {
     const eventData = await this.eventRepository.getEvent(input.eventId);
