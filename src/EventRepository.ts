@@ -1,5 +1,5 @@
-import pgp from "pg-promise";
 import Event from "./Event";
+import DatabaseConnection from "./DatabaseConnection";
 
 /**
  * This class is responsible for mediation between domain object and persistence mechanism
@@ -9,9 +9,10 @@ export default interface EventRepository {
 }
 
 export class EventRepositoryDatabase implements EventRepository {
+  constructor(readonly connection: DatabaseConnection){}
+
   async getEvent(eventId: string): Promise<Event> {
-    const connection = pgp()("postgres://postgres:pass@localhost:5432/ticket");
-    const [eventData] = await connection.query(
+    const [eventData] = await this.connection.query(
       "select * from event where event_id = $1",
       [eventId]
     );
