@@ -1,18 +1,20 @@
-import Ticket from "./Ticket";
+import RepositoryFactory from "./RepositoryFactory";
 import TicketRepository from "./TicketRepository";
 
 export default class GetTicket {
-  ticketRepository = new TicketRepository();
-
-  constructor() {}
+  ticketRepository: TicketRepository;
+  
+  constructor(readonly repositoryFactory: RepositoryFactory) {
+    this.ticketRepository = repositoryFactory.createTicketRepository();
+  }
 
   async execute(ticketId: string): Promise<Output> {
-  const ticket = await this.ticketRepository.getTicket(ticketId);  
+    const ticket = await this.ticketRepository.getTicket(ticketId);
 
     return {
       ticketId: ticket.ticketId,
       eventId: ticket.eventId,
-      email: ticket.email,
+      email: ticket.getEmail(),
       price: ticket.price,
     };
   }
