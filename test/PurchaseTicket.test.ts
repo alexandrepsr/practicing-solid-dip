@@ -1,8 +1,12 @@
+import { EventRepositoryDatabase, EventRepositoryFake } from "../src/EventRepository";
 import GetTicket from "../src/GetTicket";
 import PurchaseTicket from "../src/PurchaseTicket";
+import { TicketRepositoryDatabase, TicketRepositoryFake } from "../src/TicketRepository";
 
 test("should buy a ticket", async () => {
-  const purchaseTicket = new PurchaseTicket();
+  const eventRepository = new EventRepositoryFake();
+  const ticketRepository = new TicketRepositoryFake();
+  const purchaseTicket = new PurchaseTicket(eventRepository, ticketRepository);
   const inputPurchaseTicket = {
     eventId: "8c0a59f4-64cb-436e-81c1-ae92f3c7be20",
     email: "bob@gang4.com",
@@ -12,7 +16,7 @@ test("should buy a ticket", async () => {
   );
   expect(outputPurchaseTicket.ticketId).toBeDefined();
   
-  const getTicket = new GetTicket();
+  const getTicket = new GetTicket(ticketRepository);
   const outputGetTicket = await getTicket.execute(outputPurchaseTicket.ticketId);
   expect(outputGetTicket.ticketId).toBe(outputPurchaseTicket.ticketId);
   expect(outputGetTicket.eventId).toBe(inputPurchaseTicket.eventId);
